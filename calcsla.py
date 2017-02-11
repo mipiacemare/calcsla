@@ -35,8 +35,8 @@ bizcal = JpBizCalendar(2017, 'UTC')
 #tmpelapse = bizcal.get_business_elapse(tmpstart, tmpend)
 #print(tmpelapse)
 
-infile = open(CSV_IN_FILE, "r")
-outfile = open(CSV_OUT_FILE, "w")
+infile = codecs.open(CSV_IN_FILE, 'r', 'utf_8')
+outfile = codecs.open(CSV_OUT_FILE, 'w', 'utf_8')
 reader = csv.reader(infile, delimiter='\t')
 writer = csv.writer(outfile, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
 
