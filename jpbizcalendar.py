@@ -9,6 +9,7 @@ SUNDAY = 6
 TZONE_JST='JST'
 TZONE_UTC='UTC'
 
+
 class JpBizCalendar():
 
     def __init__(self, year, tz):
@@ -24,24 +25,26 @@ class JpBizCalendar():
                              date(2015,7,20),date(2015,9,21),date(2015,9,23),date(2015,10,12),date(2015,11,3),date(2015,11,23),date(2015,12,23))
         self.holiday_2016 = (date(2016,1,1),date(2016,1,11),date(2016,2,11),date(2016,3,21),date(2016,4,29),date(2016,5,3),date(2016,5,4),date(2016,5,5),\
                              date(2016,7,18),date(2016,9,19),date(2016,9,22),date(2016,10,10),date(2016,11,3),date(2016,11,23),date(2016,12,23))
-        self.holidays = {2014:self.holiday_2014, 2015:self.holiday_2015, 2016:self.holiday_2016}
+        self.holiday_2017 = (date(2017,1,1),date(2017,1,2),date(2017,1,9),date(2017,2,11),date(2017,3,20),date(2017,4,29),date(2017,5,3),date(2017,5,4),date(2017,5,5),\
+                             date(2017,7,17),date(2017,8,11),date(2017,9,18),date(2017,9,23),date(2017,10,9),date(2017,11,3),date(2017,11,23),date(2017,12,23))
+        self.holidays = {2014:self.holiday_2014, 2015:self.holiday_2015, 2016:self.holiday_2016, 2017:self.holiday_2017}
         self.dst_2015 = (datetime(2015, 3, 29, 1, 0, 0), datetime(2015, 10, 25, 2, 0, 0))
         self.dst_2016 = (datetime(2016, 3, 27, 1, 0, 0), datetime(2016, 10, 30, 2, 0, 0))
         self.dst = {2015:self.dst_2015, 2016:self.dst_2016}
         print(self.this_now)
 
-    def set_tzconv(self, flag):
+    def set_tzconv(flag):
         self.tzconv=flag
         print('Timezone conversion: ', flag)
         
-    def set_biz_start_time(self, start_hour):
+    def set_biz_start_time(start_hour):
         self.biz_start_time = start_hour
         print('Business hour start at ', start_hour)
 
     def get_jst(self, ddd):
         if self.tzone_conv:
             if self.tzone == TZONE_UTC:
-                jst = ddd + timedelta(hours=9)
+                 jst = ddd + timedelta(hours=9)
             else: 
                 if ddd > self.dst[ddd.year][0] and ddd < self.dst[ddd.year][1]:
                     jst = ddd + timedelta(hours=8)
@@ -125,4 +128,3 @@ class JpBizCalendar():
         
         return delta.total_seconds()/60
         
-

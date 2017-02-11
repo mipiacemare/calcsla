@@ -20,12 +20,13 @@ COL_QUEUE = 'queue'
 COL_IS_SLA_MET_EMAIL ='is_sla_met_email'
 QUEUE_DEVELOPER = 'developer'
 QUEUE_TIER1 = 'tier1'
+CS_QUEUE = 1
 
 SLA_TIME = 0, 60, 240, 720, 1440, 15
 
 print(u'helloworld')
 
-bizcal = JpBizCalendar(2016, 'UTC')
+bizcal = JpBizCalendar(2017, 'UTC')
 
 #TEST
 #tmpstart = datetime(2016,3,1,7,3,0)
@@ -34,8 +35,8 @@ bizcal = JpBizCalendar(2016, 'UTC')
 #tmpelapse = bizcal.get_business_elapse(tmpstart, tmpend)
 #print(tmpelapse)
 
-infile = codecs.open(CSV_IN_FILE, 'r', 'utf_8')
-outfile = codecs.open(CSV_OUT_FILE, 'w', 'utf_8')
+infile = open(CSV_IN_FILE, "r")
+outfile = open(CSV_OUT_FILE, "w")
 reader = csv.reader(infile, delimiter='\t')
 writer = csv.writer(outfile, delimiter='\t', quoting=csv.QUOTE_MINIMAL)
 
@@ -44,18 +45,18 @@ ccolumn = 0
 for column in header:
     print (column)
     if column == COL_CASE_ID:
-        idxcase=ccolumn
+       idxcase=ccolumn
     elif column == COL_SEVERITY:
-        idxseverity=ccolumn
+       idxseverity=ccolumn
     elif column == COL_CREATION_UTC:
-        idxcrutc=ccolumn
+       idxcrutc=ccolumn
     elif column == COL_FIRSTRES_UTC:
-        idxfrutc=ccolumn
+       idxfrutc=ccolumn
     elif column == COL_QUEUE:
-        idxqueue=ccolumn
+       idxqueue=ccolumn
     elif column == COL_IS_SLA_MET_EMAIL:
-        idxisslametemail=ccolumn
-        break
+       idxisslametemail=ccolumn
+       break
     ccolumn = ccolumn + 1
 
 header.append('is_adjusted_missed')
@@ -66,7 +67,7 @@ writer.writerow(header)
 crow = 0
 for row in reader:
     #print(row)
-    if QUEUE_DEVELOPER in row[idxqueue] or QUEUE_TIER1 in row[idxqueue]:
+    if CS_QUEUE > 0 or ( QUEUE_DEVELOPER in row[idxqueue] or QUEUE_TIER1 in row[idxqueue]):
         crutc = datetime.strptime(row[idxcrutc], "%Y-%m-%d %H:%M:%S")
         if row[idxfrutc] is not '':
             frutc = datetime.strptime(row[idxfrutc], "%Y-%m-%d %H:%M:%S")
@@ -89,3 +90,5 @@ for row in reader:
 
 infile.close()
 outfile.close()
+
+
